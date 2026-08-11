@@ -3,13 +3,11 @@
 import Link from "next/link";
 import { 
   FileText, 
-  ExternalLink, 
   Trash2, 
   CheckCircle2, 
   Clock, 
   ChevronLeft, 
   ChevronRight,
-  MessageSquare,
   Sparkles
 } from "lucide-react";
 
@@ -17,53 +15,33 @@ export default function DocumentTable() {
   const documents = [
     {
       id: "doc-1",
-      title: "Attention Is All You Need",
-      fileName: "attention_is_all_you_need.pdf",
-      size: "2.1 MB",
-      date: "Aug 11, 2026",
+      title: "dummy file",
+      fileName: "dummy_file.pdf",
+      size: "00",
+      date: "00",
       status: "Processed",
-      chunks: 48,
-      queries: 18,
+      chunks: "00",
+      queries: "00",
     },
     {
       id: "doc-2",
-      title: "DeepSeek-V3 Architecture Report",
-      fileName: "deepseek_v3_tech_report.pdf",
-      size: "4.8 MB",
-      date: "Aug 10, 2026",
+      title: "dummy file",
+      fileName: "dummy_file.pdf",
+      size: "00",
+      date: "00",
       status: "Processed",
-      chunks: 112,
-      queries: 34,
+      chunks: "00",
+      queries: "00",
     },
     {
       id: "doc-3",
-      title: "Retrieval-Augmented Generation for Knowledge-Intensive Tasks",
-      fileName: "rag_paper_lewis_et_al.pdf",
-      size: "1.7 MB",
-      date: "Aug 09, 2026",
+      title: "dummy file",
+      fileName: "dummy_file.pdf",
+      size: "00",
+      date: "00",
       status: "Processed",
-      chunks: 36,
-      queries: 9,
-    },
-    {
-      id: "doc-4",
-      title: "Llama 3 Herd of Models Paper",
-      fileName: "llama3_herd_models.pdf",
-      size: "8.2 MB",
-      date: "Aug 08, 2026",
-      status: "Processing",
-      chunks: 140,
-      queries: 0,
-    },
-    {
-      id: "doc-5",
-      title: "Mastering the Game of Go with Deep Neural Networks",
-      fileName: "alphago_nature.pdf",
-      size: "3.4 MB",
-      date: "Aug 05, 2026",
-      status: "Processed",
-      chunks: 62,
-      queries: 12,
+      chunks: "00",
+      queries: "00",
     },
   ];
 
@@ -152,7 +130,7 @@ export default function DocumentTable() {
       {/* Pagination Footer UI */}
       <div className="px-6 py-4 bg-slate-950/60 border-t border-slate-800/80 flex items-center justify-between">
         <div className="text-xs text-slate-400">
-          Showing <span className="font-semibold text-slate-200">1</span> to <span className="font-semibold text-slate-200">5</span> of <span className="font-semibold text-slate-200">42</span> documents
+          Showing <span className="font-semibold text-slate-200">00</span> to <span className="font-semibold text-slate-200">00</span> of <span className="font-semibold text-slate-200">00</span> documents
         </div>
 
         {/* Pagination Buttons */}
@@ -164,9 +142,7 @@ export default function DocumentTable() {
             <ChevronLeft className="w-4 h-4" />
           </button>
           <div className="flex items-center gap-1 text-xs">
-            <button className="px-3 py-1 rounded-lg bg-indigo-600 font-semibold text-white">1</button>
-            <button className="px-3 py-1 rounded-lg hover:bg-slate-800 text-slate-400">2</button>
-            <button className="px-3 py-1 rounded-lg hover:bg-slate-800 text-slate-400">3</button>
+            <button className="px-3 py-1 rounded-lg bg-indigo-600 font-semibold text-white">00</button>
           </div>
           <button className="p-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:bg-slate-800 transition-colors">
             <ChevronRight className="w-4 h-4" />

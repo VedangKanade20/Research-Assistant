@@ -10,7 +10,8 @@ Welcome to the **Learn as we Build (L&B)** guide! This document explains every s
 2. [Folder & Project Structure](#2-folder--project-structure)
 3. [Routing Concepts in App Router](#3-routing-concepts-in-app-router)
 4. [Design System & Dark Theme](#4-design-system--dark-theme)
-5. [Page-by-Page Architectural Breakdown](#5-page-by-page-architectural-breakdown)
+5. [Authentication & Context Architecture](#5-authentication--context-architecture)
+6. [Page-by-Page Architectural Breakdown](#6-page-by-page-architectural-breakdown)
 
 ---
 
@@ -35,11 +36,12 @@ Here is how our `frontend/` workspace is organized:
 ```
 frontend/
 ├── app/
+│   ├── page.js             # Root Landing Page UI with CTA buttons
 │   ├── (auth)/             # Auth route group (shares authentication layout)
 │   │   ├── login/
-│   │   │   └── page.js     # /login page UI
+│   │   │   └── page.js     # /login page UI connected to AuthContext
 │   │   └── register/
-│   │       └── page.js     # /register page UI
+│   │       └── page.js     # /register page UI connected to AuthContext
 │   ├── (dashboard)/        # Dashboard route group (shares Sidebar & Header)
 │   │   ├── layout.js       # Main Dashboard shell (Sidebar + Header + main view)
 │   │   ├── dashboard/
@@ -51,10 +53,11 @@ frontend/
 │   │   └── settings/
 │   │       └── page.js     # /settings user profile page UI
 │   ├── globals.css         # Global Tailwind styles & dark mode color variables
-│   ├── layout.js           # Root layout wrapper (Fonts, Theme Provider)
-│   └── page.js             # Root landing redirect page UI
+│   └── layout.js           # Root layout wrapper (Fonts, Theme Provider, AuthProvider)
+├── context/
+│   └── AuthContext.js      # React Context for authentication state management & localStorage
 ├── components/             # Reusable UI components
-│   ├── ui/                 # Atomic UI primitives (Button, Card, Input, Badge, Table)
+│   ├── ui/                 # Atomic UI primitives
 │   ├── dashboard/          # Metrics Cards, Activity List
 │   ├── documents/          # Document Table, Upload Dropzone
 │   ├── chat/               # Chat Message list, Prompt Input bar, Citation Sidebar
@@ -90,10 +93,31 @@ Our design matches a sleek **Minimal SaaS interface** inspired by modern AI apps
 
 ---
 
-## 5. Page-by-Page Architectural Breakdown
+## 5. Authentication & Context Architecture
+
+We implement a client-side React Context (`AuthContext.js`) that wraps the root application:
+
+```javascript
+// context/AuthContext.js
+const { user, login, register, logout } = useAuth();
+```
+
+- **Persistence**: User login information (token, profile details) is saved in `localStorage` (`research_ai_user`) so session persists across page refreshes.
+- **Login Flow**: `/login` handles email/password input, displays an active loading spinner, updates the global user context, and redirects to `/dashboard`.
+- **Register Flow**: `/register` collects user details, simulates workspace creation, updates auth context, and navigates to `/dashboard`.
+- **Logout Flow**: The Sidebar logout button triggers `logout()`, clearing `localStorage` and redirecting to `/login` or `/`.
+
+---
+
+## 6. Page-by-Page Architectural Breakdown
+
+### Page 0: Landing Page (`/`)
+- Branded header navigation bar with "Sign In" and "Try for Free" CTAs.
+- Hero Section: Gradient glow, headline, subtitle, primary CTA button ("Try for Free" -> `/register`), and interactive UI mockup.
+- Feature Grid & 3-Step Workflow ("Upload -> Vector Indexing -> Ask & Discover").
 
 ### Page 1: Auth Layout (`/login` & `/register`)
-- Clean split card layout with branded logo, subtitle, input fields, primary submit button, and secondary link to toggle between Login and Register.
+- Clean split card layout with branded logo, subtitle, input fields, primary submit button, loading state, and secondary link to toggle between Login and Register.
 
 ### Page 2: Dashboard (`/dashboard`)
 - **Metrics Grid**: 6 visual cards showing core SaaS metrics:
@@ -121,4 +145,4 @@ Our design matches a sleek **Minimal SaaS interface** inspired by modern AI apps
 - Profile edit card, API key/Token configuration preview card, and subscription/usage usage tier status.
 
 ---
-*Stay tuned as we construct each component and page step-by-step!*
+*Stay tuned as we continue enhancing the platform!*

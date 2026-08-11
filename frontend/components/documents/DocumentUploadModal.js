@@ -40,8 +40,8 @@ export default function DocumentUploadModal({ isOpen, onClose }) {
           <div className="flex items-center gap-3">
             <FileText className="w-4 h-4 text-indigo-400" />
             <div>
-              <p className="font-semibold text-slate-200">sample_research_paper.pdf</p>
-              <p className="text-[11px] text-slate-500">2.4 MB • Ready to process</p>
+              <p className="font-semibold text-slate-200">dummy file.pdf</p>
+              <p className="text-[11px] text-slate-500">00 MB • Ready to process</p>
             </div>
           </div>
           <span className="text-emerald-400 font-medium bg-emerald-950/40 px-2 py-0.5 rounded border border-emerald-800/40">

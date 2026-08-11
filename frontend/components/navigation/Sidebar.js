@@ -2,19 +2,19 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useAuth } from "@/context/AuthContext";
 import { 
   LayoutDashboard, 
   FileText, 
   Settings, 
   UploadCloud, 
   BrainCircuit, 
-  User, 
   LogOut,
-  Sparkles
 } from "lucide-react";
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const { user, logout } = useAuth();
 
   const navItems = [
     { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
@@ -22,23 +22,34 @@ export default function Sidebar() {
     { name: "Settings", href: "/settings", icon: Settings },
   ];
 
+  const userName = user?.name || "Vedang Kanade";
+  const userRole = user?.role || "Researcher";
+  const initials = userName
+    .split(" ")
+    .map((n) => n[0])
+    .join("")
+    .substring(0, 2)
+    .toUpperCase();
+
   return (
     <aside className="w-64 bg-slate-900/90 border-r border-slate-800 flex flex-col justify-between shrink-0 select-none">
       {/* Brand Header */}
       <div>
         <div className="p-6 flex items-center gap-3 border-b border-slate-800/60">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-blue-400 flex items-center justify-center shadow-lg shadow-indigo-500/20">
-            <BrainCircuit className="w-5 h-5 text-white" />
-          </div>
-          <div>
-            <h1 className="font-bold text-slate-100 text-base tracking-tight leading-none flex items-center gap-1.5">
-              ResearchAI
-              <span className="text-[10px] font-semibold uppercase tracking-wider text-indigo-400 bg-indigo-950/80 px-1.5 py-0.5 rounded border border-indigo-800/50">
-                PRO
-              </span>
-            </h1>
-            <p className="text-xs text-slate-400 mt-1">Intelligence Platform</p>
-          </div>
+          <Link href="/" className="flex items-center gap-3 group">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-blue-400 flex items-center justify-center shadow-lg shadow-indigo-500/20 group-hover:scale-105 transition-transform">
+              <BrainCircuit className="w-5 h-5 text-white" />
+            </div>
+            <div>
+              <h1 className="font-bold text-slate-100 text-base tracking-tight leading-none flex items-center gap-1.5">
+                ResearchAI
+                <span className="text-[10px] font-semibold uppercase tracking-wider text-indigo-400 bg-indigo-950/80 px-1.5 py-0.5 rounded border border-indigo-800/50">
+                  PRO
+                </span>
+              </h1>
+              <p className="text-xs text-slate-400 mt-1">Intelligence Platform</p>
+            </div>
+          </Link>
         </div>
 
         {/* Action Button */}
@@ -82,22 +93,22 @@ export default function Sidebar() {
       {/* Footer Profile Box */}
       <div className="p-4 border-t border-slate-800/80 bg-slate-950/40">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-300 font-semibold text-xs">
-              VK
+          <div className="flex items-center gap-3 overflow-hidden">
+            <div className="w-8 h-8 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-300 font-semibold text-xs shrink-0">
+              {initials}
             </div>
             <div className="overflow-hidden">
-              <p className="text-xs font-semibold text-slate-200 truncate">Vedang Kanade</p>
-              <p className="text-[11px] text-slate-400 truncate">Researcher</p>
+              <p className="text-xs font-semibold text-slate-200 truncate">{userName}</p>
+              <p className="text-[11px] text-slate-400 truncate">{userRole}</p>
             </div>
           </div>
-          <Link 
-            href="/login"
-            className="text-slate-500 hover:text-slate-300 p-1.5 rounded-md hover:bg-slate-800 transition-colors"
+          <button 
+            onClick={logout}
+            className="text-slate-500 hover:text-red-400 p-1.5 rounded-md hover:bg-slate-800 transition-colors shrink-0 cursor-pointer"
             title="Sign out"
           >
             <LogOut className="w-4 h-4" />
-          </Link>
+          </button>
         </div>
       </div>
     </aside>

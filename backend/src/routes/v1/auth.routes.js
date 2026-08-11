@@ -1,4 +1,4 @@
-import { registerHandler, loginHandler, getProfileHandler } from '../../controllers/auth.controller.js';
+import { registerHandler, loginHandler, getProfileHandler, logoutHandler } from '../../controllers/auth.controller.js';
 import { authenticate } from '../../middleware/auth.middleware.js';
 
 const authBodySchema = {
@@ -15,4 +15,5 @@ export async function authRoutes(fastify, options) {
   fastify.post('/auth/login', { schema: { body: authBodySchema } }, loginHandler);
   
   fastify.get('/auth/me', { preHandler: [authenticate] }, getProfileHandler);
+  fastify.post('/auth/logout', logoutHandler);
 }

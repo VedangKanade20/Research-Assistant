@@ -5,12 +5,8 @@ import ChatInterface from "@/components/chat/ChatInterface";
 import SourceReferences from "@/components/chat/SourceReferences";
 import { 
   ArrowLeft, 
-  FileText, 
   Sparkles, 
-  BookOpen, 
-  Download, 
-  Layers, 
-  Tag 
+  Download 
 } from "lucide-react";
 
 export default function DocumentDetailPage({ params }) {
@@ -28,13 +24,13 @@ export default function DocumentDetailPage({ params }) {
 
           <div>
             <h1 className="text-sm font-bold text-slate-100 flex items-center gap-2">
-              Attention Is All You Need
+              dummy file
               <span className="text-[10px] font-semibold text-emerald-400 bg-emerald-950/60 border border-emerald-800/40 px-2 py-0.5 rounded">
                 Indexed & Ready
               </span>
             </h1>
             <p className="text-[11px] text-slate-400">
-              Vaswani et al. (2017) • 15 pages • 48 vector embeddings
+              dummy name • 00 pages • 00 vector embeddings
             </p>
           </div>
         </div>
@@ -64,7 +60,7 @@ export default function DocumentDetailPage({ params }) {
                 Core Innovation
               </p>
               <p>
-                Introduces the **Transformer architecture** based entirely on self-attention mechanisms, dispensing with recurrent or convolutional neural networks.
+                dummy data
               </p>
             </div>
 
@@ -73,9 +69,9 @@ export default function DocumentDetailPage({ params }) {
                 Key Takeaways
               </h4>
               <ul className="list-disc list-inside space-y-1.5 text-slate-400 text-[11px]">
-                <li>Significantly reduces training time compared to RNNs.</li>
-                <li>Achieves 28.4 BLEU on English-to-German translation.</li>
-                <li>Uses Multi-Head Attention to attend to info from different representation subspaces.</li>
+                <li>dummy data</li>
+                <li>dummy data</li>
+                <li>dummy data</li>
               </ul>
             </div>
           </div>

@@ -40,3 +40,9 @@ export async function getProfileHandler(request, reply) {
     }
   });
 }
+
+export async function logoutHandler(request, reply) {
+  return reply.status(200).send({
+    message: 'Logged out successfully'
+  });
+}

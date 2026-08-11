@@ -1,24 +1,22 @@
 "use client";
 
-import { FileSearch, Layers, Sparkles, Hash, ExternalLink } from "lucide-react";
+import { FileSearch, Hash } from "lucide-react";
 
 export default function SourceReferences() {
   const sources = [
     {
-      id: "chunk-102",
-      page: 6,
-      section: "Section 3.5 Positional Encoding",
-      score: "96% Match",
-      snippet:
-        "Since our model contains no recurrence and no convolution, in order for the model to make use of the order of the sequence, we must inject some information about the relative or absolute position of the tokens.",
+      id: "chunk-1",
+      page: "00",
+      section: "dummy section",
+      score: "00% Match",
+      snippet: "dummy data",
     },
     {
-      id: "chunk-108",
-      page: 8,
-      section: "Section 4.1 Scaled Dot-Product Attention",
-      score: "91% Match",
-      snippet:
-        "We compute the matrix of outputs as Softmax(QK^T / sqrt(d_k)) V. The scaling factor of 1/sqrt(d_k) prevents dot products from growing large in magnitude.",
+      id: "chunk-2",
+      page: "00",
+      section: "dummy section",
+      score: "00% Match",
+      snippet: "dummy data",
     },
   ];
 

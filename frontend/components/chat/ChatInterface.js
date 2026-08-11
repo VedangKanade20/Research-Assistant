@@ -1,28 +1,28 @@
 "use client";
 
 import { useState } from "react";
-import { Send, Sparkles, Bot, User, Copy, ThumbsUp, RefreshCw } from "lucide-react";
+import { Send, Sparkles, Bot, User, RefreshCw } from "lucide-react";
 
 export default function ChatInterface() {
   const [messages, setMessages] = useState([
     {
       id: "1",
       sender: "ai",
-      text: "Hello! I have indexed **Attention Is All You Need**. Ask me any specific technical question about the Transformer architecture, positional encodings, or self-attention mechanisms.",
-      timestamp: "10:42 AM",
+      text: "dummy message",
+      timestamp: "00",
     },
     {
       id: "2",
       sender: "user",
-      text: "Why are positional encodings added to the input embeddings instead of concatenated?",
-      timestamp: "10:43 AM",
+      text: "dummy message",
+      timestamp: "00",
     },
     {
       id: "3",
       sender: "ai",
-      text: "According to Section 3.5 of the paper, sinusoidal positional encodings are added directly to the input embeddings to preserve the dimension `d_model = 512` without increasing parameter counts.\n\nSince sinusoidal functions allow the model to easily learn relative positions by attending to linear transformations of `pos + k`, summation allows embedding vector representations to combine spatial order without ballooning vector dimensionality.",
-      timestamp: "10:43 AM",
-      citations: ["Page 6, Section 3.5", "Page 8, Table 1"],
+      text: "dummy message",
+      timestamp: "00",
+      citations: ["dummy data", "dummy data"],
     },
   ]);
 
@@ -36,7 +36,7 @@ export default function ChatInterface() {
           </div>
           <div>
             <h3 className="text-xs font-bold text-slate-200">Interactive RAG Assistant</h3>
-            <p className="text-[10px] text-slate-400">Model: DeepSeek RAG / GPT-4o Vector Pipeline</p>
+            <p className="text-[10px] text-slate-400">Model: dummy data</p>
           </div>
         </div>
 

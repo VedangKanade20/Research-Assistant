@@ -1,4 +1,5 @@
 import Fastify from 'fastify';
+import fastifyCors from '@fastify/cors';
 import fastifyJwt from '@fastify/jwt';
 import { config } from './config/env.js';
 import { router } from './routes/index.js';
@@ -7,6 +8,12 @@ import { AppError } from './utils/errors.js';
 export function buildApp() {
   const app = Fastify({
     logger: config.nodeEnv !== 'test'
+  });
+
+  app.register(fastifyCors, {
+    origin: true, // Allow all origins in development
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
   });
 
   app.register(fastifyJwt, {
