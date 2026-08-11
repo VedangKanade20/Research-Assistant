@@ -7,7 +7,9 @@ export const documents = pgTable('documents', {
     .notNull()
     .references(() => users.id, { onDelete: 'cascade' }),
   filename: text('filename').notNull(),
+  fileType: text('file_type').notNull().default('pdf'),
   originalSize: integer('original_size').notNull(),
+  extractedText: text('extracted_text'),
   summary: text('summary'),
   createdAt: timestamp('created_at').defaultNow().notNull()
 });

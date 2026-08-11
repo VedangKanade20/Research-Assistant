@@ -1,6 +1,6 @@
 import Fastify from 'fastify';
-import fastifyCors from '@fastify/cors';
 import fastifyJwt from '@fastify/jwt';
+import fastifyMultipart from '@fastify/multipart';
 import { config } from './config/env.js';
 import { router } from './routes/index.js';
 import { AppError } from './utils/errors.js';
@@ -10,14 +10,14 @@ export function buildApp() {
     logger: config.nodeEnv !== 'test'
   });
 
-  app.register(fastifyCors, {
-    origin: true, // Allow all origins in development
-    credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
-  });
-
   app.register(fastifyJwt, {
     secret: config.jwtSecret
+  });
+
+  app.register(fastifyMultipart, {
+    limits: {
+      fileSize: 10 * 1024 * 1024 // 10 MB Limit
+    }
   });
 
   app.register(router);
