@@ -19,7 +19,6 @@ export default function Sidebar() {
   const navItems = [
     { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
     { name: "Documents", href: "/documents", icon: FileText },
-    { name: "Settings", href: "/settings", icon: Settings },
   ];
 
   const userName = user?.name || "Vedang Kanade";
