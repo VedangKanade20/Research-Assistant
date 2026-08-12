@@ -226,7 +226,30 @@ In this project (Controller-Service-Repository architecture):
 
 ---
 
-## 4. System Health Check
+## 4. Dashboard Metrics & Analytics Endpoints
+
+### 4.1 Get User Dashboard Metrics
+* **Method**: `GET`
+* **URL**: `http://localhost:6968/api/v1/dashboard/metrics`
+* **Headers**: `Authorization: Bearer <YOUR_JWT_TOKEN>`
+* **Request Body**: *None*
+* **Response (200 OK)**:
+```json
+{
+  "message": "Dashboard metrics retrieved successfully",
+  "data": {
+    "totalDocuments": 3,
+    "totalStorageFormatted": "1.25 MB",
+    "totalStorageBytes": 1310720,
+    "totalQuestionsAsked": 12,
+    "totalTokensConsumed": 4520
+  }
+}
+```
+
+---
+
+## 5. System Health Check
 
 ### 3.1 Health Check
 * **Method**: `GET`

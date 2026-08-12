@@ -1,16 +1,25 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { 
   FileText, 
   Trash2, 
   CheckCircle2, 
-  Clock, 
   Sparkles,
-  Loader2
+  Loader2,
+  ChevronLeft,
+  ChevronRight
 } from "lucide-react";
 
 export default function DocumentTable({ documents = [], loading = false, onDelete }) {
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
+
+  const totalPages = Math.ceil(documents.length / itemsPerPage) || 1;
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const currentDocuments = documents.slice(startIndex, startIndex + itemsPerPage);
+
   const formatBytes = (bytes) => {
     if (bytes === 0) return "0 Bytes";
     const k = 1024;
@@ -52,7 +61,7 @@ export default function DocumentTable({ documents = [], loading = false, onDelet
                   </div>
                 </td>
               </tr>
-            ) : documents.length === 0 ? (
+            ) : currentDocuments.length === 0 ? (
               <tr>
                 <td colSpan="6" className="px-6 py-12 text-center text-slate-400">
                   <p className="text-sm font-semibold text-slate-300">No documents found</p>
@@ -60,7 +69,7 @@ export default function DocumentTable({ documents = [], loading = false, onDelet
                 </td>
               </tr>
             ) : (
-              documents.map((doc) => (
+              currentDocuments.map((doc) => (
                 <tr key={doc.id} className="hover:bg-slate-800/40 transition-colors">
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
@@ -122,6 +131,39 @@ export default function DocumentTable({ documents = [], loading = false, onDelet
           </tbody>
         </table>
       </div>
+
+      {/* Pagination Footer */}
+      {!loading && documents.length > 0 && (
+        <div className="px-6 py-3.5 bg-slate-950/60 border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
+          <div>
+            Showing <span className="font-semibold text-slate-200">{startIndex + 1}</span> to{" "}
+            <span className="font-semibold text-slate-200">
+              {Math.min(startIndex + itemsPerPage, documents.length)}
+            </span>{" "}
+            of <span className="font-semibold text-slate-200">{documents.length}</span> documents
+          </div>
+
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
+              disabled={currentPage === 1}
+              className="p-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-400 hover:text-slate-200 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+            >
+              <ChevronLeft className="w-4 h-4" />
+            </button>
+            <span className="font-medium text-slate-300">
+              Page {currentPage} of {totalPages}
+            </span>
+            <button
+              onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
+              disabled={currentPage === totalPages}
+              className="p-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-400 hover:text-slate-200 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+            >
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

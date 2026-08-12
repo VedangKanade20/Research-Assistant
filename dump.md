@@ -64,5 +64,20 @@ Build the Retrieval-Augmented Generation (RAG) engine that turns vector-indexed 
 - [x] Build Frontend Interactive Chat UI (`app/(dashboard)/documents/[id]/page.js` split-screen document viewer & chat window).
 - [x] Create `modules/05-phase5-guide.md` beginner-friendly educational guide.
 
+---
+
+## Phase 6: Metrics, Token Tracking & Polish
+
+### Goal
+Build the SaaS Dashboard Metrics system, token usage tracking, and UI pagination/filtering. Aggregate database statistics (storage used, total documents, total questions asked, total tokens consumed), present analytics cards and progress bars in Next.js, and paginate document lists & chat message feeds.
+
+### Tasks
+- [x] Create Metrics Service & Controller (`GET /api/v1/dashboard/metrics`).
+- [x] Aggregate user storage bytes, document counts, chat question counts, and Gemini token totals in PostgreSQL.
+- [x] Connect Next.js Dashboard (`app/(dashboard)/dashboard/page.js`) with live backend metrics API.
+- [x] Add pagination & search filtering controls to Document Table and Chat Feed.
+- [x] Create `modules/06-phase6-guide.md` beginner-friendly educational guide.
+
+
 
 

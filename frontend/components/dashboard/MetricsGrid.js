@@ -1,90 +1,110 @@
 "use client";
 
+import { useState, useEffect } from "react";
+import { useAuth } from "@/context/AuthContext";
 import { 
   FileText, 
-  Cpu, 
+  HardDrive, 
   Zap, 
   MessageSquare, 
-  Sparkles, 
-  Clock, 
-  TrendingUp 
+  Loader2 
 } from "lucide-react";
 
 export default function MetricsGrid() {
-  const metrics = [
+  const { token } = useAuth();
+  const [metricsData, setMetricsData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!token) return;
+
+    async function fetchMetrics() {
+      try {
+        const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:6968";
+        const res = await fetch(`${API_BASE}/api/v1/dashboard/metrics`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        const json = await res.json();
+        if (res.ok && json.data) {
+          setMetricsData(json.data);
+        }
+      } catch (err) {
+        console.error("Failed to fetch dashboard metrics:", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchMetrics();
+  }, [token]);
+
+  if (loading) {
+    return (
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {[1, 2, 3, 4].map((i) => (
+          <div key={i} className="bg-slate-900/60 border border-slate-800 rounded-xl p-5 flex items-center gap-3 animate-pulse">
+            <div className="w-10 h-10 rounded-lg bg-slate-800 shrink-0" />
+            <div className="space-y-2 flex-1">
+              <div className="h-3 bg-slate-800 rounded w-1/2" />
+              <div className="h-5 bg-slate-800 rounded w-3/4" />
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  const cards = [
     {
       title: "Total Documents",
-      value: "00",
-      change: "00",
+      value: metricsData?.totalDocuments ?? 0,
+      subtext: "Parsed research files",
       icon: FileText,
       color: "text-blue-400",
       bg: "bg-blue-950/40 border-blue-800/40",
     },
     {
-      title: "AI Requests",
-      value: "00",
-      change: "00",
-      icon: Cpu,
-      color: "text-indigo-400",
-      bg: "bg-indigo-950/40 border-indigo-800/40",
-    },
-    {
-      title: "Tokens Used",
-      value: "00",
-      change: "00",
-      icon: Zap,
-      color: "text-amber-400",
-      bg: "bg-amber-950/40 border-amber-800/40",
+      title: "Storage Footprint",
+      value: metricsData?.totalStorageFormatted ?? "0 MB",
+      subtext: "Raw file storage footprint",
+      icon: HardDrive,
+      color: "text-purple-400",
+      bg: "bg-purple-950/40 border-purple-800/40",
     },
     {
       title: "Questions Asked",
-      value: "00",
-      change: "00",
+      value: metricsData?.totalQuestionsAsked ?? 0,
+      subtext: "Grounded RAG queries",
       icon: MessageSquare,
       color: "text-emerald-400",
       bg: "bg-emerald-950/40 border-emerald-800/40",
     },
     {
-      title: "Summaries Generated",
-      value: "00",
-      change: "00",
-      icon: Sparkles,
-      color: "text-purple-400",
-      bg: "bg-purple-950/40 border-purple-800/40",
-    },
-    {
-      title: "Avg Response Time",
-      value: "00",
-      change: "00",
-      icon: Clock,
-      color: "text-cyan-400",
-      bg: "bg-cyan-950/40 border-cyan-800/40",
+      title: "Gemini Tokens",
+      value: (metricsData?.totalTokensConsumed ?? 0).toLocaleString(),
+      subtext: "Cumulative LLM tokens",
+      icon: Zap,
+      color: "text-amber-400",
+      bg: "bg-amber-950/40 border-amber-800/40",
     },
   ];
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-      {metrics.map((m) => {
-        const Icon = m.icon;
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      {cards.map((card, idx) => {
+        const Icon = card.icon;
         return (
           <div
-            key={m.title}
-            className="bg-slate-900/70 border border-slate-800/90 rounded-xl p-5 hover:border-slate-700 transition-all shadow-lg shadow-black/20"
+            key={idx}
+            className="bg-slate-900/70 border border-slate-800/90 rounded-xl p-5 hover:border-slate-700 transition-all shadow-md flex items-center justify-between"
           >
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
-                {m.title}
-              </span>
-              <div className={`p-2 rounded-lg border ${m.bg}`}>
-                <Icon className={`w-4 h-4 ${m.color}`} />
-              </div>
+            <div>
+              <p className="text-xs font-medium text-slate-400 mb-1">{card.title}</p>
+              <h3 className="text-2xl font-extrabold text-slate-100 tracking-tight">{card.value}</h3>
+              <p className="text-[11px] text-slate-500 mt-1">{card.subtext}</p>
             </div>
-            <div className="mt-3 flex items-baseline justify-between">
-              <h2 className="text-2xl font-bold text-slate-100 tracking-tight">{m.value}</h2>
-              <span className="text-[11px] text-slate-400 flex items-center gap-1">
-                <TrendingUp className="w-3 h-3 text-emerald-400" />
-                {m.change}
-              </span>
+            <div className={`p-3 rounded-xl border ${card.bg} ${card.color} shrink-0`}>
+              <Icon className="w-5 h-5" />
             </div>
           </div>
         );
