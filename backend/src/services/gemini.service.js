@@ -65,4 +65,49 @@ export class GeminiService {
       return textArray.map(() => new Array(768).fill(0));
     }
   }
+
+  /**
+   * Generates a grounded, hallucination-free answer using Gemini 3.6 Flash
+   * @param {string} question 
+   * @param {Array<string>} contextChunks 
+   * @returns {Promise<{ answer: string, tokensUsed: number }>}
+   */
+  async generateGroundedAnswer(question, contextChunks) {
+    if (!this.apiKey || !this.ai) {
+      return {
+        answer: 'API key not configured. Unable to process answer.',
+        tokensUsed: 0
+      };
+    }
+
+    try {
+      const contextText = contextChunks.map((c, i) => `--- Snippet ${i + 1} ---\n${c}`).join('\n\n');
+      
+      const systemPrompt = `You are a senior AI research assistant. 
+Answer the user's question strictly using ONLY the provided document context snippets below.
+If the answer cannot be found in the snippets, respond clearly: "I could not find information about that in the uploaded document."
+Do not make assumptions or bring in external information not present in the context.
+
+Context Snippets:
+${contextText}
+
+User Question: ${question}`;
+
+      const response = await this.ai.models.generateContent({
+        model: 'gemini-3.6-flash',
+        contents: systemPrompt,
+      });
+
+      const answer = response.text ? response.text.trim() : 'Could not generate answer.';
+      const tokensUsed = response.usageMetadata?.totalTokenCount || 0;
+
+      return { answer, tokensUsed };
+    } catch (err) {
+      console.error('Gemini Grounded Answer Error:', err.message);
+      return {
+        answer: 'Failed to generate answer due to an AI service error.',
+        tokensUsed: 0
+      };
+    }
+  }
 }

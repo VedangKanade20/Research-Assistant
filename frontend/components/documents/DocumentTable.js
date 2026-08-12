@@ -99,6 +99,14 @@ export default function DocumentTable({ documents = [], loading = false, onDelet
 
                   <td className="px-6 py-4 text-right">
                     <div className="flex items-center justify-end gap-2">
+                      <Link
+                        href={`/documents/${doc.id}`}
+                        className="p-1.5 rounded-lg text-indigo-400 hover:bg-indigo-950/60 border border-indigo-900/40 hover:border-indigo-700/60 transition-colors flex items-center gap-1 text-xs font-medium"
+                        title="Open Interactive RAG Chat"
+                      >
+                        <Sparkles className="w-4 h-4" />
+                        <span>Chat PDF</span>
+                      </Link>
                       <button
                         onClick={() => onDelete(doc.id, doc.filename)}
                         className="p-1.5 rounded-lg text-slate-400 hover:text-red-400 hover:bg-red-950/40 transition-colors"

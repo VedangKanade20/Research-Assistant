@@ -175,7 +175,58 @@ In this project (Controller-Service-Repository architecture):
 
 ---
 
-## 3. System Health Check
+## 3. Grounded RAG Chat Endpoints
+
+### 3.1 Send Question to Document (RAG Q&A)
+* **Method**: `POST`
+* **URL**: `http://localhost:6968/api/v1/documents/:id/chat`
+* **URL Params**: `:id` = Document UUID
+* **Headers**: 
+  - `Authorization: Bearer <YOUR_JWT_TOKEN>`
+  - `Content-Type: application/json`
+* **Request Body (`req.body`)**:
+```json
+{
+  "question": "What is the maximum file upload size allowed by the system?"
+}
+```
+* **Response (200 OK)**:
+```json
+{
+  "message": "Answer generated successfully",
+  "data": {
+    "sessionId": "b419fa82-1234-4000-8000-123456789abc",
+    "message": {
+      "id": "m9876543-1234-4000-8000-987654321xyz",
+      "sessionId": "b419fa82-1234-4000-8000-123456789abc",
+      "role": "assistant",
+      "content": "Based on the provided document, the maximum file upload limit is 10MB per stream.",
+      "tokensUsed": 245,
+      "createdAt": "2026-08-12T12:00:00.000Z"
+    },
+    "sources": [
+      {
+        "chunkIndex": 0,
+        "content": "The backend server runs on Fastify Node.js configured with a maximum file upload limit of 10MB per stream."
+      }
+    ]
+  }
+}
+```
+
+---
+
+### 3.2 Get Document Chat History
+* **Method**: `GET`
+* **URL**: `http://localhost:6968/api/v1/documents/:id/chat-history`
+* **URL Params**: `:id` = Document UUID
+* **Headers**: `Authorization: Bearer <YOUR_JWT_TOKEN>`
+* **Request Body**: *None*
+* **Response (200 OK)**: Returns session metadata and chronological array of messages.
+
+---
+
+## 4. System Health Check
 
 ### 3.1 Health Check
 * **Method**: `GET`

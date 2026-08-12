@@ -51,13 +51,18 @@ Convert extracted document text into semantic chunks, generate 768-dimensional v
 
 ---
 
-## Phase 5 Heads-Up & Architecture Note (RAG & Chat Engine)
+## Phase 5: RAG Engine & Interactive Document Chat
 
-### What Comes Next in Phase 5:
-1. **Vector Similarity Search**: We will write a Drizzle query using Cosine Similarity (`<->` / `<=>` distance) to retrieve the top 3-5 relevant chunks matching a user's question.
-2. **Chat History Persistence**: Create `chat_sessions` and `chat_messages` tables to persist conversation history per document.
-3. **Grounded Prompt Assembly**: Wrap retrieved chunks inside a strict System Prompt:
-   > *"Answer the user's question using ONLY the provided document context below. If the answer is not present in the context, reply: 'The uploaded document does not contain enough information to answer this question.'"*
-4. **Interactive Document Chat UI**: Build split-screen interactive Chat PDF interface in Next.js (`/documents/[id]`).
+### Goal
+Build the Retrieval-Augmented Generation (RAG) engine that turns vector-indexed documents into interactive, hallucination-free Q&A sessions. Convert user queries to vectors, execute PostgreSQL Cosine Similarity search, assemble grounded prompt context, generate grounded answers using `gemini-3.6-flash`, track token usage, and construct a split-screen interactive Chat PDF interface in Next.js.
+
+### Tasks
+- [x] Create `chat_sessions` and `chat_messages` database schemas in Drizzle for session persistence & token tracking.
+- [x] Implement Vector Similarity Search (`findTopKChunks`) using Cosine Similarity in Drizzle/Postgres.
+- [x] Build Grounded RAG Prompt Assembly with strict hallucination guardrails in `gemini.service.js`.
+- [x] Create RAG Chat Controller & Service (`POST /api/v1/documents/:id/chat`, `GET /api/v1/documents/:id/chat-history`).
+- [x] Build Frontend Interactive Chat UI (`app/(dashboard)/documents/[id]/page.js` split-screen document viewer & chat window).
+- [x] Create `modules/05-phase5-guide.md` beginner-friendly educational guide.
+
 
 

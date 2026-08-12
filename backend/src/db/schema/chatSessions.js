@@ -1,8 +1,8 @@
-import { pgTable, uuid, text, integer, timestamp, jsonb } from 'drizzle-orm/pg-core';
+import { pgTable, uuid, text, timestamp } from 'drizzle-orm/pg-core';
 import { documents } from './documents.js';
 import { users } from './users.js';
 
-export const documentChunks = pgTable('document_chunks', {
+export const chatSessions = pgTable('chat_sessions', {
   id: uuid('id').defaultRandom().primaryKey(),
   documentId: uuid('document_id')
     .notNull()
@@ -10,8 +10,6 @@ export const documentChunks = pgTable('document_chunks', {
   userId: uuid('user_id')
     .notNull()
     .references(() => users.id, { onDelete: 'cascade' }),
-  chunkIndex: integer('chunk_index').notNull(),
-  content: text('content').notNull(),
-  embedding: jsonb('embedding'),
+  title: text('title').default('Document Chat Session'),
   createdAt: timestamp('created_at').defaultNow().notNull()
 });
