@@ -81,6 +81,8 @@ export class GeminiService {
     }
 
     try {
+      const contextText = contextChunks.map((c, i) => `--- Snippet ${i + 1} ---\n${c}`).join('\n\n');
+
       const systemPrompt = `You are a senior AI research assistant analyzing the provided document snippets.
 Answer the user's question accurately and helpfully using the context provided below. 
 - You may analyze, synthesize, summarize, evaluate career roles/fit, and draw direct logical conclusions from the provided text.
