@@ -13,14 +13,14 @@ export default function SettingsPage() {
       </div>
 
       {/* User Profile Card */}
-      <div className="bg-slate-900/70 border border-slate-800 rounded-xl p-6 shadow-lg shadow-black/20">
+      <div className="bg-slate-900/70 border border-slate-800 rounded-xl p-4 sm:p-6 shadow-lg shadow-black/20">
         <div className="flex items-center gap-3 pb-4 border-b border-slate-800 mb-6">
           <User className="w-5 h-5 text-indigo-400" />
           <h2 className="text-base font-bold text-slate-100">User Profile</h2>
         </div>
 
         <form onSubmit={(e) => e.preventDefault()} className="space-y-4 max-w-xl">
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">
                 First Name

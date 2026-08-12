@@ -96,15 +96,15 @@ export default function MetricsGrid() {
         return (
           <div
             key={idx}
-            className="bg-slate-900/70 border border-slate-800/90 rounded-xl p-5 hover:border-slate-700 transition-all shadow-md flex items-center justify-between"
+            className="bg-slate-900/70 border border-slate-800/90 rounded-xl p-4 sm:p-5 hover:border-slate-700 transition-all shadow-md flex items-center justify-between gap-3"
           >
             <div>
               <p className="text-xs font-medium text-slate-400 mb-1">{card.title}</p>
-              <h3 className="text-2xl font-extrabold text-slate-100 tracking-tight">{card.value}</h3>
+              <h3 className="text-xl sm:text-2xl font-extrabold text-slate-100 tracking-tight">{card.value}</h3>
               <p className="text-[11px] text-slate-500 mt-1">{card.subtext}</p>
             </div>
-            <div className={`p-3 rounded-xl border ${card.bg} ${card.color} shrink-0`}>
-              <Icon className="w-5 h-5" />
+            <div className={`p-2.5 sm:p-3 rounded-xl border ${card.bg} ${card.color} shrink-0`}>
+              <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
           </div>
         );

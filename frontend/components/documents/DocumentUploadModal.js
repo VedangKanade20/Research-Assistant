@@ -88,11 +88,11 @@ export default function DocumentUploadModal({ isOpen, onClose, onUploadSuccess }
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm animate-fade-in">
-      <div className="w-full max-w-xl bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-2xl relative">
+      <div className="w-full max-w-xl bg-slate-900 border border-slate-800 rounded-2xl p-4 sm:p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
         {/* Header */}
         <div className="flex items-center justify-between pb-4 border-b border-slate-800">
           <div>
-            <h3 className="text-lg font-bold text-slate-100">Upload Research Document</h3>
+            <h3 className="text-base sm:text-lg font-bold text-slate-100">Upload Research Document</h3>
             <p className="text-xs text-slate-400">PDF or TXT documents (max 10MB)</p>
           </div>
           <button
@@ -111,7 +111,7 @@ export default function DocumentUploadModal({ isOpen, onClose, onUploadSuccess }
           onDragLeave={handleDrag}
           onDrop={handleDrop}
           onClick={() => document.getElementById("file-input").click()}
-          className={`my-6 border-2 border-dashed rounded-xl p-8 flex flex-col items-center justify-center text-center transition-all cursor-pointer group ${
+          className={`my-4 sm:my-6 border-2 border-dashed rounded-xl p-5 sm:p-8 flex flex-col items-center justify-center text-center transition-all cursor-pointer group ${
             dragActive
               ? "border-indigo-500 bg-indigo-950/20"
               : "border-slate-700/80 hover:border-indigo-500/80 bg-slate-950/40 hover:bg-indigo-950/10"

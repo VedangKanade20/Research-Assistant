@@ -7,10 +7,10 @@ export default function DeleteConfirmModal({ isOpen, onClose, onConfirm, docName
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm animate-fade-in">
-      <div className="w-full max-w-md bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-2xl relative">
+      <div className="w-full max-w-md bg-slate-900 border border-slate-800 rounded-2xl p-5 sm:p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
         <div className="flex items-center gap-3 text-amber-400 mb-3">
           <AlertTriangle className="w-6 h-6 shrink-0" />
-          <h3 className="text-lg font-bold text-slate-100">Delete Document</h3>
+          <h3 className="text-base sm:text-lg font-bold text-slate-100">Delete Document</h3>
         </div>
 
         <p className="text-xs text-slate-300 mb-6">

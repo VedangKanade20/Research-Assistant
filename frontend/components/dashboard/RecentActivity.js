@@ -69,13 +69,13 @@ export default function RecentActivity() {
           documents.map((doc) => (
             <div
               key={doc.id}
-              className="flex items-center justify-between p-3.5 rounded-xl bg-slate-950/50 border border-slate-800/60 hover:border-slate-700/80 transition-all"
+              className="flex flex-col sm:flex-row sm:items-center justify-between p-3.5 sm:p-4 rounded-xl bg-slate-950/50 border border-slate-800/60 hover:border-slate-700/80 transition-all gap-3"
             >
               <div className="flex items-center gap-3 overflow-hidden">
                 <div className="p-2.5 rounded-lg bg-indigo-950/60 border border-indigo-800/40 text-indigo-400 shrink-0">
                   <FileText className="w-4 h-4" />
                 </div>
-                <div className="overflow-hidden">
+                <div className="overflow-hidden min-w-0 flex-1">
                   <p className="text-xs font-bold text-slate-200 truncate">{doc.filename}</p>
                   <p className="text-[11px] text-slate-400 truncate mt-0.5">
                     {doc.summary ? `Summary: "${doc.summary.slice(0, 60)}..."` : "Vector Indexed & Ready"}
@@ -83,7 +83,7 @@ export default function RecentActivity() {
                 </div>
               </div>
 
-              <div className="flex items-center gap-3 shrink-0 ml-4">
+              <div className="flex items-center justify-between sm:justify-end gap-3 shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-800/50">
                 <span className="text-[10px] text-slate-400 font-medium">
                   {formatDate(doc.createdAt)}
                 </span>

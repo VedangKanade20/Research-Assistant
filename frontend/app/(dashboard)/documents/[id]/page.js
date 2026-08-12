@@ -105,6 +105,8 @@ export default function DocumentDetailPage() {
     }
   };
 
+  const [activeTab, setActiveTab] = useState("chat"); // 'reader' or 'chat' for mobile toggle
+
   if (loadingDoc) {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
@@ -117,9 +119,9 @@ export default function DocumentDetailPage() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto space-y-4 h-[calc(100vh-6.5rem)] flex flex-col">
+    <div className="max-w-7xl mx-auto space-y-4 h-full lg:h-[calc(100vh-6.5rem)] flex flex-col">
       {/* Top Action Header */}
-      <div className="flex items-center justify-between pb-2 shrink-0">
+      <div className="flex flex-wrap items-center justify-between gap-3 pb-2 shrink-0">
         <button
           onClick={() => router.push("/documents")}
           className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 hover:bg-slate-800 text-slate-300 text-xs font-semibold transition-colors"
@@ -128,7 +130,33 @@ export default function DocumentDetailPage() {
           <span>Back to Documents</span>
         </button>
 
-        <div className="flex items-center gap-2">
+        {/* Mobile View Switcher Tabs */}
+        <div className="flex lg:hidden items-center bg-slate-950 p-1 rounded-xl border border-slate-800 text-xs font-medium">
+          <button
+            onClick={() => setActiveTab("reader")}
+            className={`px-3 py-1 rounded-lg flex items-center gap-1.5 transition-colors ${
+              activeTab === "reader"
+                ? "bg-indigo-600 text-white font-semibold"
+                : "text-slate-400 hover:text-slate-200"
+            }`}
+          >
+            <BookOpen className="w-3.5 h-3.5" />
+            <span>Reader</span>
+          </button>
+          <button
+            onClick={() => setActiveTab("chat")}
+            className={`px-3 py-1 rounded-lg flex items-center gap-1.5 transition-colors ${
+              activeTab === "chat"
+                ? "bg-indigo-600 text-white font-semibold"
+                : "text-slate-400 hover:text-slate-200"
+            }`}
+          >
+            <Bot className="w-3.5 h-3.5" />
+            <span>Chat RAG</span>
+          </button>
+        </div>
+
+        <div className="hidden sm:flex items-center gap-2">
           <span className="px-2.5 py-1 rounded-full bg-indigo-950/60 border border-indigo-800/40 text-indigo-300 text-xs font-medium flex items-center gap-1.5">
             <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
             <span>Gemini 3.6 Grounded RAG</span>
@@ -139,7 +167,11 @@ export default function DocumentDetailPage() {
       {/* Main Split-Screen Workspace */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 flex-1 min-h-0">
         {/* Left Side: Document Reader & Summary */}
-        <div className="lg:col-span-5 bg-slate-900/70 border border-slate-800 rounded-2xl p-5 flex flex-col min-h-0 overflow-hidden shadow-xl">
+        <div 
+          className={`lg:col-span-5 bg-slate-900/70 border border-slate-800 rounded-2xl p-4 sm:p-5 flex flex-col min-h-0 overflow-hidden shadow-xl ${
+            activeTab === "reader" ? "flex h-[calc(100vh-10rem)] lg:h-auto" : "hidden lg:flex"
+          }`}
+        >
           <div className="flex items-center gap-3 pb-3 border-b border-slate-800 shrink-0">
             <div className="p-2 rounded-lg bg-indigo-950/80 border border-indigo-800/40 text-indigo-400">
               <FileText className="w-5 h-5" />
@@ -157,7 +189,7 @@ export default function DocumentDetailPage() {
             {documentData?.summary && (
               <div className="p-4 rounded-xl bg-indigo-950/30 border border-indigo-900/40 space-y-2">
                 <div className="flex items-center gap-1.5 text-indigo-300 text-xs font-semibold">
-                  <Sparkles className="w-3.5 h-3.5" />
+                  <Sparkles className="w-3.5 h-3.5 text-indigo-400 shrink-0" />
                   <span>Executive AI Summary</span>
                 </div>
                 <p className="text-xs text-slate-300 leading-relaxed italic">
@@ -169,10 +201,10 @@ export default function DocumentDetailPage() {
             {/* Extracted Text Viewer */}
             <div className="space-y-2">
               <div className="flex items-center gap-1.5 text-slate-400 text-xs font-semibold">
-                <BookOpen className="w-3.5 h-3.5" />
+                <BookOpen className="w-3.5 h-3.5 shrink-0" />
                 <span>Extracted Document Content</span>
               </div>
-              <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800/80 font-mono text-xs text-slate-300 whitespace-pre-wrap leading-relaxed">
+              <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800/80 font-mono text-xs text-slate-300 whitespace-pre-wrap leading-relaxed max-h-[50vh] lg:max-h-none overflow-y-auto">
                 {documentData?.extractedText || "No readable text content extracted."}
               </div>
             </div>
@@ -180,14 +212,18 @@ export default function DocumentDetailPage() {
         </div>
 
         {/* Right Side: Interactive RAG Chat Panel */}
-        <div className="lg:col-span-7 bg-slate-900/90 border border-slate-800 rounded-2xl flex flex-col min-h-0 shadow-xl overflow-hidden">
+        <div 
+          className={`lg:col-span-7 bg-slate-900/90 border border-slate-800 rounded-2xl flex flex-col min-h-0 shadow-xl overflow-hidden ${
+            activeTab === "chat" ? "flex h-[calc(100vh-10rem)] lg:h-auto" : "hidden lg:flex"
+          }`}
+        >
           {/* Chat Header */}
           <div className="p-4 border-b border-slate-800 bg-slate-950/60 flex items-center justify-between shrink-0">
             <div className="flex items-center gap-2.5">
-              <Bot className="w-5 h-5 text-indigo-400" />
+              <Bot className="w-5 h-5 text-indigo-400 shrink-0" />
               <div>
                 <h3 className="text-sm font-bold text-slate-100">Document Chat Room</h3>
-                <p className="text-[11px] text-slate-400">Grounded in vector chunks via PostgreSQL pgvector</p>
+                <p className="text-[11px] text-slate-400 truncate">Grounded in vector chunks via PostgreSQL pgvector</p>
               </div>
             </div>
           </div>
@@ -217,7 +253,7 @@ export default function DocumentDetailPage() {
                   )}
 
                   <div
-                    className={`max-w-[85%] rounded-2xl p-3.5 space-y-1 ${
+                    className={`max-w-[85%] rounded-2xl p-3 sm:p-3.5 space-y-1 ${
                       msg.role === "user"
                         ? "bg-indigo-600 text-white font-medium rounded-tr-none shadow-md shadow-indigo-600/20"
                         : "bg-slate-950 border border-slate-800 text-slate-200 rounded-tl-none leading-relaxed"
@@ -245,9 +281,9 @@ export default function DocumentDetailPage() {
                 <div className="w-7 h-7 rounded-lg bg-indigo-950 border border-indigo-800/50 flex items-center justify-center text-indigo-400 shrink-0">
                   <Bot className="w-4 h-4" />
                 </div>
-                <div className="bg-slate-950 border border-slate-800 rounded-2xl rounded-tl-none p-3.5 flex items-center gap-2 text-indigo-400 font-medium">
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                  <span>Searching vectors & generating grounded answer...</span>
+                <div className="bg-slate-950 border border-slate-800 rounded-2xl rounded-tl-none p-3 sm:p-3.5 flex items-center gap-2 text-indigo-400 font-medium">
+                  <Loader2 className="w-4 h-4 animate-spin shrink-0" />
+                  <span className="text-xs">Searching vectors & generating grounded answer...</span>
                 </div>
               </div>
             )}
@@ -264,15 +300,15 @@ export default function DocumentDetailPage() {
                 onChange={(e) => setQuestion(e.target.value)}
                 placeholder="Ask a question grounded in this document..."
                 disabled={sending}
-                className="flex-1 bg-slate-900 border border-slate-800 rounded-xl px-4 py-2.5 text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition-colors disabled:opacity-50"
+                className="flex-1 bg-slate-900 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition-colors disabled:opacity-50 min-w-0"
               />
               <button
                 type="submit"
                 disabled={!question.trim() || sending}
-                className="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold transition-all shadow-md shadow-indigo-600/20 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1.5"
+                className="px-3.5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold transition-all shadow-md shadow-indigo-600/20 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1.5 shrink-0"
               >
                 <Send className="w-3.5 h-3.5" />
-                <span>Send</span>
+                <span className="hidden sm:inline">Send</span>
               </button>
             </div>
           </form>

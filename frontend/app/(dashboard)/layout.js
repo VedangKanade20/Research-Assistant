@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import Sidebar from "@/components/navigation/Sidebar";
@@ -10,6 +10,7 @@ import { Loader2, BrainCircuit } from "lucide-react";
 export default function DashboardLayout({ children }) {
   const { isAuthenticated, loading } = useAuth();
   const router = useRouter();
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 
   useEffect(() => {
     if (!loading && !isAuthenticated) {
@@ -40,15 +41,20 @@ export default function DashboardLayout({ children }) {
   return (
     <div className="flex h-screen w-screen overflow-hidden bg-[#090d16] text-slate-100">
       {/* Shared Sidebar */}
-      <Sidebar />
+      <Sidebar 
+        isOpen={mobileSidebarOpen} 
+        onClose={() => setMobileSidebarOpen(false)} 
+      />
 
       {/* Main Content Viewport */}
       <div className="flex flex-col flex-1 min-w-0 overflow-hidden">
         {/* Shared Top Navigation Header */}
-        <Header />
+        <Header 
+          onToggleSidebar={() => setMobileSidebarOpen((prev) => !prev)} 
+        />
 
         {/* Dynamic Page Views */}
-        <main className="flex-1 overflow-y-auto p-6 md:p-8">
+        <main className="flex-1 overflow-y-auto p-4 sm:p-6 md:p-8">
           {children}
         </main>
       </div>

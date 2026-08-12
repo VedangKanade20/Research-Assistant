@@ -30,7 +30,7 @@ export default function LoginPage() {
       {/* Glow background accents */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-indigo-600/10 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="w-full max-w-md bg-slate-900/80 border border-slate-800 rounded-2xl shadow-2xl p-8 backdrop-blur-xl relative z-10">
+      <div className="w-full max-w-md bg-slate-900/80 border border-slate-800 rounded-2xl shadow-2xl p-5 sm:p-8 backdrop-blur-xl relative z-10">
         {/* Brand Logo */}
         <div className="flex flex-col items-center text-center mb-8">
           <Link href="/" className="group flex flex-col items-center">
