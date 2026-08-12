@@ -16,12 +16,14 @@
     "@fastify/env": "^5.0.2",
     "@fastify/jwt": "^9.0.4",
     "@fastify/multipart": "^10.1.0",
+    "@google/genai": "^2.16.0",
     "bcrypt": "^5.1.1",
     "dotenv": "^16.4.7",
     "drizzle-orm": "^0.38.4",
     "fastify": "^5.2.1",
     "pdf-parse": "^2.4.5",
-    "pg": "^8.13.1"
+    "pg": "^8.13.1",
+    "pgvector": "^0.3.0"
   },
   "devDependencies": {
     "drizzle-kit": "^0.30.2",

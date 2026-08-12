@@ -15,6 +15,13 @@
       "when": 1786479482882,
       "tag": "0001_sad_lady_mastermind",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1786521666155,
+      "tag": "0002_youthful_bug",
+      "breakpoints": true
     }
   ]
 }

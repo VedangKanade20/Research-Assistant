@@ -1,10 +1,15 @@
 import { DocumentRepository } from '../repositories/document.repository.js';
+import { ChunkRepository } from '../repositories/chunk.repository.js';
+import { GeminiService } from './gemini.service.js';
 import { extractTextFromBuffer } from '../utils/textExtractor.js';
+import { chunkText } from '../utils/chunker.js';
 import { BadRequestError, NotFoundError } from '../utils/errors.js';
 
 export class DocumentService {
   constructor() {
     this.documentRepository = new DocumentRepository();
+    this.chunkRepository = new ChunkRepository();
+    this.geminiService = new GeminiService();
   }
 
   async getUserDocuments(userId) {
@@ -31,14 +36,39 @@ export class DocumentService {
       throw new BadRequestError('Could not extract readable text content from file');
     }
 
+    // 1. Generate Executive Summary via Gemini API
+    const summary = await this.geminiService.generateSummary(extractedText);
+
+    // 2. Save Document record to Postgres
     const newDoc = await this.documentRepository.create({
       userId,
       filename,
       fileType,
       originalSize: fileBuffer.length,
       extractedText,
-      summary: null
+      summary
     });
+
+    // 3. Chunk Document Text
+    const rawChunks = chunkText(extractedText);
+
+    if (rawChunks.length > 0) {
+      // 4. Generate 768-dim embeddings via Gemini API
+      const chunkTexts = rawChunks.map(c => c.content);
+      const embeddings = await this.geminiService.generateEmbeddings(chunkTexts);
+
+      // 5. Build Chunk Batch for DB
+      const chunksData = rawChunks.map((c, i) => ({
+        documentId: newDoc.id,
+        userId,
+        chunkIndex: c.chunkIndex,
+        content: c.content,
+        embedding: embeddings[i] || new Array(768).fill(0)
+      }));
+
+      // 6. Bulk Insert Chunks into Postgres
+      await this.chunkRepository.insertBatch(chunksData);
+    }
 
     return newDoc;
   }

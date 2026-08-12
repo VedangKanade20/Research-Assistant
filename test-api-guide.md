@@ -118,8 +118,8 @@ In this project (Controller-Service-Repository architecture):
     "filename": "research_paper.pdf",
     "fileType": "pdf",
     "originalSize": 115200,
-    "extractedText": "Abstract: In this paper we explore...",
-    "summary": null,
+    "extractedText": "Abstract: In this paper we explore deep learning architectures...",
+    "summary": "This document explores advanced deep learning architectures for natural language processing. It highlights optimization techniques and context window scaling.",
     "createdAt": "2026-08-12T12:00:00.000Z"
   }
 }
