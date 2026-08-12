@@ -81,12 +81,11 @@ export class GeminiService {
     }
 
     try {
-      const contextText = contextChunks.map((c, i) => `--- Snippet ${i + 1} ---\n${c}`).join('\n\n');
-      
-      const systemPrompt = `You are a senior AI research assistant. 
-Answer the user's question strictly using ONLY the provided document context snippets below.
-If the answer cannot be found in the snippets, respond clearly: "I could not find information about that in the uploaded document."
-Do not make assumptions or bring in external information not present in the context.
+      const systemPrompt = `You are a senior AI research assistant analyzing the provided document snippets.
+Answer the user's question accurately and helpfully using the context provided below. 
+- You may analyze, synthesize, summarize, evaluate career roles/fit, and draw direct logical conclusions from the provided text.
+- If the question asks for a summary or career advice based on the document, synthesize the relevant details present in the text.
+- Only decline to answer if the context contains zero relevant facts or content related to the question.
 
 Context Snippets:
 ${contextText}

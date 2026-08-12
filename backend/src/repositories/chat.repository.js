@@ -63,7 +63,7 @@ export class ChatRepository {
    * Vector Cosine Similarity Search
    * Fetches document chunks and ranks top K by Cosine Distance
    */
-  async findTopKChunks(documentId, userId, queryEmbedding, topK = 3) {
+  async findTopKChunks(documentId, userId, queryEmbedding, topK = 5) {
     const chunks = await db
       .select({
         id: documentChunks.id,

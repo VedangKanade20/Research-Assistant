@@ -48,8 +48,8 @@ export class RagService {
     const queryEmbeddings = await this.geminiService.generateEmbeddings([question.trim()]);
     const queryVector = queryEmbeddings[0] || new Array(768).fill(0);
 
-    // 5. Vector Cosine Similarity Search in Postgres (Top 3 Chunks)
-    const topChunks = await this.chatRepository.findTopKChunks(documentId, userId, queryVector, 3);
+    // 5. Vector Cosine Similarity Search in Postgres (Top 5 Chunks for Rich Context)
+    const topChunks = await this.chatRepository.findTopKChunks(documentId, userId, queryVector, 5);
     const contextTexts = topChunks.map(c => c.content);
 
     // 6. Generate Grounded Answer via Gemini 3.6

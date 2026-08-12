@@ -5,7 +5,7 @@
  * @param {number} overlap Overlap characters between sliding windows
  * @returns {Array<{ chunkIndex: number, content: string }>}
  */
-export function chunkText(text, chunkSize = 2000, overlap = 300) {
+export function chunkText(text, chunkSize = 1000, overlap = 150) {
   if (!text || text.trim().length === 0) {
     return [];
   }
