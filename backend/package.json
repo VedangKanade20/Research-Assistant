@@ -4,7 +4,7 @@
   "type": "module",
   "main": "src/server.js",
   "scripts": {
-    "dev": "nodemon src/server.js | pino-pretty",
+    "dev": "nodemon --watch src -e js,json src/server.js | pino-pretty",
     "start": "node src/server.js",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",

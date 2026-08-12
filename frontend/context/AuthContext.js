@@ -4,7 +4,7 @@ import { createContext, useContext, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 const AuthContext = createContext();
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:6968/api/v1";
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
@@ -18,7 +18,7 @@ export function AuthProvider({ children }) {
 
       if (token) {
         try {
-          const res = await fetch(`${API_BASE_URL}/auth/me`, {
+          const res = await fetch(`${API_BASE_URL}/api/v1/auth/me`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -57,11 +57,11 @@ export function AuthProvider({ children }) {
     checkAuthStatus();
   }, []);
 
-  // Strict Login handler -> POST /auth/login (Port 6968)
+  // Strict Login handler -> POST /api/v1/auth/login (Port 6968)
   const login = async (email, password) => {
     setLoading(true);
     try {
-      const res = await fetch(`${API_BASE_URL}/auth/login`, {
+      const res = await fetch(`${API_BASE_URL}/api/v1/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -103,7 +103,7 @@ export function AuthProvider({ children }) {
   const register = async (name, email, password) => {
     setLoading(true);
     try {
-      const res = await fetch(`${API_BASE_URL}/auth/register`, {
+      const res = await fetch(`${API_BASE_URL}/api/v1/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -162,8 +162,10 @@ export function AuthProvider({ children }) {
     router.push("/login");
   };
 
+  const token = user?.token || (typeof window !== "undefined" ? localStorage.getItem("research_ai_token") : null);
+
   return (
-    <AuthContext.Provider value={{ user, loading, login, register, logout, isAuthenticated: !!user }}>
+    <AuthContext.Provider value={{ user, token, loading, login, register, logout, isAuthenticated: !!user }}>
       {children}
     </AuthContext.Provider>
   );

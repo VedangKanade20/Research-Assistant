@@ -61,8 +61,8 @@ export default function DocumentUploadModal({ isOpen, onClose, onUploadSuccess }
       const formData = new FormData();
       formData.append("file", selectedFile);
 
-      const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:6968";
-      const res = await fetch(`${API_URL}/api/v1/documents/upload`, {
+      const API_BASE = process.env.NEXT_PUBLIC_API_URL;
+      const res = await fetch(`${API_BASE}/api/v1/documents/upload`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`

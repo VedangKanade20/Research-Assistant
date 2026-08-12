@@ -1,23 +1,34 @@
-import Fastify from 'fastify';
-import fastifyJwt from '@fastify/jwt';
-import fastifyMultipart from '@fastify/multipart';
-import { config } from './config/env.js';
-import { router } from './routes/index.js';
-import { AppError } from './utils/errors.js';
+import Fastify from "fastify";
+import fastifyCors from "@fastify/cors";
+import fastifyJwt from "@fastify/jwt";
+import fastifyMultipart from "@fastify/multipart";
+import { config } from "./config/env.js";
+import { router } from "./routes/index.js";
+import { AppError } from "./utils/errors.js";
 
 export function buildApp() {
   const app = Fastify({
-    logger: config.nodeEnv !== 'test'
+    logger: config.nodeEnv !== "test",
+  });
+
+  app.register(fastifyCors, {
+    origin: true,
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"]
   });
 
   app.register(fastifyJwt, {
-    secret: config.jwtSecret
+    secret: config.jwtSecret,
+    sign: {
+      expiresIn: "7d", // 7 Days session expiration
+    },
   });
 
   app.register(fastifyMultipart, {
     limits: {
-      fileSize: 10 * 1024 * 1024 // 10 MB Limit
-    }
+      fileSize: 10 * 1024 * 1024, // 10 MB Limit
+    },
   });
 
   app.register(router);
@@ -29,26 +40,29 @@ export function buildApp() {
       return reply.status(error.statusCode).send({
         error: {
           name: error.name,
-          message: error.message
-        }
+          message: error.message,
+        },
       });
     }
 
     if (error.validation) {
       return reply.status(400).send({
         error: {
-          name: 'ValidationError',
+          name: "ValidationError",
           message: error.message,
-          details: error.validation
-        }
+          details: error.validation,
+        },
       });
     }
 
     return reply.status(500).send({
       error: {
-        name: 'InternalServerError',
-        message: config.nodeEnv === 'production' ? 'An unexpected error occurred' : error.message
-      }
+        name: "InternalServerError",
+        message:
+          config.nodeEnv === "production"
+            ? "An unexpected error occurred"
+            : error.message,
+      },
     });
   });
 

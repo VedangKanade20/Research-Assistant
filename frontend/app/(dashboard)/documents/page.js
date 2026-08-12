@@ -25,8 +25,8 @@ export default function DocumentsPage() {
     setError("");
 
     try {
-      const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:6968";
-      const res = await fetch(`${API_URL}/api/v1/documents`, {
+      const API_BASE = process.env.NEXT_PUBLIC_API_URL;
+      const res = await fetch(`${API_BASE}/api/v1/documents`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -56,8 +56,8 @@ export default function DocumentsPage() {
     setDeleting(true);
 
     try {
-      const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:6968";
-      const res = await fetch(`${API_URL}/api/v1/documents/${deleteTarget.id}`, {
+      const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:6968";
+      const res = await fetch(`${API_BASE}/api/v1/documents/${deleteTarget.id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`
@@ -65,11 +65,14 @@ export default function DocumentsPage() {
       });
 
       const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "Failed to delete document");
+      if (!res.ok) throw new Error(data.error?.message || data.message || "Failed to delete document");
 
+      // Optimistically remove from state & refresh
+      setDocuments(prev => prev.filter(d => d.id !== deleteTarget.id));
       setDeleteTarget(null);
       fetchDocuments();
     } catch (err) {
+      console.error("Delete Error:", err);
       alert(`Delete failed: ${err.message}`);
     } finally {
       setDeleting(false);
